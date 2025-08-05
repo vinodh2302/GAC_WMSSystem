@@ -1,6 +1,6 @@
-﻿using ERPSystems.Models;
+﻿using WMSSystems.Models;
 
-namespace ERPSystems.Services
+namespace WMSSystems.Services
 {
     public interface ICustomerService
     {   Task<Customer> GetCustomerByIdAsync(string customerId);

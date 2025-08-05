@@ -12,19 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["ERPSystems/ERPSystems.csproj", "ERPSystems/"]
-RUN dotnet restore "./ERPSystems/ERPSystems.csproj"
+COPY ["WMSSystems/WMSSystems.csproj", "WMSSystems/"]
+RUN dotnet restore "./WMSSystems/WMSSystems.csproj"
 COPY . .
-WORKDIR "/src/ERPSystems"
-RUN dotnet build "./ERPSystems.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/WMSSystems"
+RUN dotnet build "./WMSSystems.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./ERPSystems.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./WMSSystems.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ERPSystems.dll"]
+ENTRYPOINT ["dotnet", "WMSSystems.dll"]

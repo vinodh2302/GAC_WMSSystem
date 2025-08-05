@@ -1,4 +1,4 @@
-﻿namespace ERPSystems.Models
+﻿namespace WMSSystems.Models
 {
     public class Customer
     {
