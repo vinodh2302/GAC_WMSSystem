@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36310.24 d17.14
+VisualStudioVersion = 17.14.36310.24
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERPSystems", "ERPSystems\ERPSystems.csproj", "{099041FA-FD14-4D9B-8686-6718F6755F1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMSSystems", "ERPSystems\WMSSystems.csproj", "{099041FA-FD14-4D9B-8686-6718F6755F1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
