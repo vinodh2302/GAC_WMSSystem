@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using WMSSystems.Models;
+
 namespace ERPSystems
 {
     public class Program
@@ -13,7 +16,11 @@ namespace ERPSystems
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? "Server=localhost,1433;Database=ERPSystemsDb;User=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;";
 
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(connectionString));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
