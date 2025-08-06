@@ -1,7 +1,10 @@
-﻿namespace WMSSystems.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WMSSystems.Models
 {
     public class PurchaseOrders
     {
+        [Key]
         public string orderId { get; set; }
         public DateTime processingDate { get; set; }
         public Customer customer { get; set; }
