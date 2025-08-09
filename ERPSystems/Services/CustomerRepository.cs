@@ -1,46 +1,47 @@
-﻿using WMSSystems.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using WMSSystems.Models;
 
 namespace WMSSystems.Services
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly List<Customer> _customers = new List<Customer>();
-        public Task<Customer> GetCustomerByIdAsync(string customerId)
+        private readonly AppDbContext _context;
+
+        public CustomerRepository(AppDbContext context)
         {
-            var customer = _customers.FirstOrDefault(c => c.customerId == customerId);
-            return Task.FromResult(customer);
+            _context = context;
         }
-        public Task<IEnumerable<Customer>> GetAllCustomersAsync()
+
+        public async Task<Customer> GetCustomerByIdAsync(string customerId)
         {
-            return Task.FromResult(_customers.AsEnumerable());
+            return await _context.Customers.FirstOrDefaultAsync(c => c.customerId == customerId);
         }
-        public Task AddCustomerAsync(Customer customer)
+
+        public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
-            _customers.Add(customer);
-            return Task.CompletedTask;
+            return await _context.Customers.ToListAsync();
         }
-        public Task UpdateCustomerAsync(Customer customer)
+
+        public async Task AddCustomerAsync(Customer customer)
         {
-            var existingCustomer = _customers.FirstOrDefault(c => c.customerId == customer.customerId);
-            if (existingCustomer != null)
-            {
-                existingCustomer.customerName = customer.customerName;
-                existingCustomer.customerAddressLine1 = customer.customerAddressLine1;
-                existingCustomer.customerAddressLine2 = customer.customerAddressLine2;
-                existingCustomer.customerAddressCity = customer.customerAddressCity;
-                existingCustomer.customerAddressState = customer.customerAddressState;
-                existingCustomer.customerAddressZip = customer.customerAddressZip;
-            }
-            return Task.CompletedTask;
+            _context.Customers.Add(customer);
+            await _context.SaveChangesAsync();
         }
-        public Task DeleteCustomerAsync(string customerId)
+
+        public async Task UpdateCustomerAsync(Customer customer)
         {
-            var customer = _customers.FirstOrDefault(c => c.customerId == customerId);
+            _context.Customers.Update(customer);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteCustomerAsync(string customerId)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.customerId == customerId);
             if (customer != null)
             {
-                _customers.Remove(customer);
+                _context.Customers.Remove(customer);
+                await _context.SaveChangesAsync();
             }
-            return Task.CompletedTask;
         }
     }
 }

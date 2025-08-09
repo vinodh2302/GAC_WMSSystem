@@ -1,0 +1,27 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+# Install prerequisites for mssql-tools
+RUN apt-get update && apt-get install -y curl apt-transport-https gnupg2
+
+# Add Microsoft package repo for mssql-tools
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools unixodbc-dev
+
+ENV PATH="$PATH:/opt/mssql-tools/bin"
+
+WORKDIR /src
+
+COPY . .
+
+ENTRYPOINT ["sh", "-c", "\
+  until /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P $SA_PASSWORD -Q 'SELECT 1' > /dev/null 2>&1; do \
+    echo Waiting for SQL Server...; sleep 5; \
+  done; \
+  echo Running build...; \
+  dotnet build WMSSystems.csproj; \
+  echo Running EF migrations...; \
+  dotnet ef database update --project WMSSystems.csproj --connection \"Server=sqlserver;Database=WMSSystemsDb;User Id=sa;Password=$SA_PASSWORD;\"; \
+  echo Migrations complete; \
+"]

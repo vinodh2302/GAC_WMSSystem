@@ -24,8 +24,28 @@ namespace WMSSystems.Controllers
             var customers = await _customerService.GetAllCustomersAsync();
             return customers.ToList();
         }
-      
 
+        [HttpGet]
+        [Route("customers/{id}")]
+        public async Task<ActionResult<Customer>> GetCustomerById(string id)
+        {
+            var customer = await _customerService.GetCustomerByIdAsync(id);
+            if (customer == null)
+                return NotFound();
+            return Ok(customer);
+        }
+
+        // POST: api/customers
+        [HttpPost]
+        [Route("customers")]
+        public async Task<ActionResult<Customer>> CreateCustomer([FromBody] Customer customer)
+        {
+            await _customerService.AddCustomerAsync(customer);
+            return CreatedAtAction(nameof(GetCustomerById), new { id = customer.customerId }, customer);
+        }
+
+
+        
 
     }
 }

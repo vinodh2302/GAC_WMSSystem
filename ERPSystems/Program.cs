@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WMSSystems.Models;
+using WMSSystems.Services;
 
 namespace ERPSystems
 {
@@ -15,8 +16,14 @@ namespace ERPSystems
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                ?? "Server=localhost,1433;Database=ERPSystemsDb;User=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;";
+                ?? "Server=localhost,1433;Database=WMSSystemsDb;User=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;";
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -29,7 +36,10 @@ namespace ERPSystems
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            
 
             app.UseAuthorization();
 
