@@ -6,10 +6,10 @@ namespace WMSSystems.Services
 {
     public interface IPurchaseOrderRepository
     {
-        Task<PurchaseOrders> GetPurchaseOrderByIdAsync(string orderId);
-        Task<IEnumerable<PurchaseOrders>> GetAllPurchaseOrdersAsync();
-        Task AddPurchaseOrderAsync(PurchaseOrders purchaseOrder);
-        Task UpdatePurchaseOrderAsync(PurchaseOrders purchaseOrder);
+        Task<PurchaseOrder> GetPurchaseOrderByIdAsync(string orderId);
+        Task<IEnumerable<PurchaseOrder>> GetAllPurchaseOrdersAsync();
+        Task AddPurchaseOrderAsync(PurchaseOrder purchaseOrder);
+        Task UpdatePurchaseOrderAsync(PurchaseOrder purchaseOrder);
         Task DeletePurchaseOrderAsync(string orderId);
     }
 }

@@ -21,6 +21,9 @@ namespace ERPSystems
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
+            builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
+
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? "Server=localhost,1433;Database=WMSSystemsDb;User=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;";

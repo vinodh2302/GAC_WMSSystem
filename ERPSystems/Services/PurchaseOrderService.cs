@@ -13,22 +13,22 @@ namespace WMSSystems.Services
             _purchaseOrderRepository = purchaseOrderRepository;
         }
 
-        public async Task<PurchaseOrders> GetPurchaseOrderByIdAsync(string orderId)
+        public async Task<PurchaseOrder> GetPurchaseOrderByIdAsync(string orderId)
         {
             return await _purchaseOrderRepository.GetPurchaseOrderByIdAsync(orderId);
         }
 
-        public async Task<IEnumerable<PurchaseOrders>> GetAllPurchaseOrdersAsync()
+        public async Task<IEnumerable<PurchaseOrder>> GetAllPurchaseOrdersAsync()
         {
             return await _purchaseOrderRepository.GetAllPurchaseOrdersAsync();
         }
 
-        public async Task AddPurchaseOrderAsync(PurchaseOrders purchaseOrder)
+        public async Task AddPurchaseOrderAsync(PurchaseOrder purchaseOrder)
         {
             await _purchaseOrderRepository.AddPurchaseOrderAsync(purchaseOrder);
         }
 
-        public async Task UpdatePurchaseOrderAsync(PurchaseOrders purchaseOrder)
+        public async Task UpdatePurchaseOrderAsync(PurchaseOrder purchaseOrder)
         {
             await _purchaseOrderRepository.UpdatePurchaseOrderAsync(purchaseOrder);
         }

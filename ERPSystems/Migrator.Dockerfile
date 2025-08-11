@@ -26,9 +26,12 @@ ENTRYPOINT ["sh", "-c", "\
   until /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P 'YourStrong!Passw0rd' -Q 'SELECT 1' > /dev/null 2>&1; do \
     echo Waiting for SQL Server...; sleep 10; \
   done; \
-  echo Running build...; \
   dotnet build WMSSystems.csproj; \
-  echo Running EF migrations...; \
+  echo Creating migration...; \
+  dotnet ef migrations add AutoMigration --project WMSSystems.csproj --no-build --force || echo 'Migration already exists or no changes'; \
+  echo Applying migrations...; \
   dotnet ef database update --project WMSSystems.csproj --connection \"Server=sqlserver;Database=WMSSystemsDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;\"; \
-  echo Migrations complete; \
+  echo Migrations complete. Keeping container alive...; \
+  tail -f /dev/null \
 "]
+

@@ -14,31 +14,31 @@ namespace WMSSystems.Services
             _context = context;
         }
 
-        public async Task<PurchaseOrders> GetPurchaseOrderByIdAsync(string orderId)
+        public async Task<PurchaseOrder> GetPurchaseOrderByIdAsync(string orderId)
         {
             return await _context.PurchaseOrders
-                .Include(po => po.productLength)
-                .ThenInclude(pop => pop.product)
-                .Include(po => po.customer)
+                .Include(po => po.products)
+                .ThenInclude(pop => pop.productId)
+                .Include(po => po.products)
                 .FirstOrDefaultAsync(po => po.orderId == orderId);
         }
 
-        public async Task<IEnumerable<PurchaseOrders>> GetAllPurchaseOrdersAsync()
+        public async Task<IEnumerable<PurchaseOrder>> GetAllPurchaseOrdersAsync()
         {
             return await _context.PurchaseOrders
-                .Include(po => po.productLength)
-                .ThenInclude(pop => pop.product)
-                .Include(po => po.customer)
+                .Include(po => po.products)
+                .ThenInclude(pop => pop.productId)
+                .Include(po => po.products)
                 .ToListAsync();
         }
 
-        public async Task AddPurchaseOrderAsync(PurchaseOrders purchaseOrder)
+        public async Task AddPurchaseOrderAsync(PurchaseOrder purchaseOrder)
         {
             _context.PurchaseOrders.Add(purchaseOrder);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdatePurchaseOrderAsync(PurchaseOrders purchaseOrder)
+        public async Task UpdatePurchaseOrderAsync(PurchaseOrder purchaseOrder)
         {
             _context.PurchaseOrders.Update(purchaseOrder);
             await _context.SaveChangesAsync();

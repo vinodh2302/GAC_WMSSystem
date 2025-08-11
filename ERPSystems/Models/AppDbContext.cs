@@ -8,7 +8,7 @@ namespace WMSSystems.Models
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<PurchaseOrders> PurchaseOrders { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         // Add other DbSet<T> properties for other models as needed
     }
 }       

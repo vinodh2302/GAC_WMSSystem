@@ -19,15 +19,15 @@ namespace WMSSystems.Controllers
 
         [HttpGet]
         [Route("orders")]
-        public async Task<List<PurchaseOrders>> GetPurchaseOrders()
+        public async Task<List<PurchaseOrder>> GetPurchaseOrders()
         {
             var orders = await _purchaseOrderService.GetAllPurchaseOrdersAsync();
-            return orders is List<PurchaseOrders> list ? list : new List<PurchaseOrders>(orders);
+            return orders is List<PurchaseOrder> list ? list : new List<PurchaseOrder>(orders);
         }
 
         [HttpGet]
         [Route("orders/{id}")]
-        public async Task<ActionResult<PurchaseOrders>> GetPurchaseOrderById(string id)
+        public async Task<ActionResult<PurchaseOrder>> GetPurchaseOrderById(string id)
         {
             var order = await _purchaseOrderService.GetPurchaseOrderByIdAsync(id);
             if (order == null)
@@ -37,7 +37,7 @@ namespace WMSSystems.Controllers
 
         [HttpPost]
         [Route("orders")]
-        public async Task<ActionResult> AddPurchaseOrder([FromBody] PurchaseOrders purchaseOrder)
+        public async Task<ActionResult> AddPurchaseOrder([FromBody] PurchaseOrder purchaseOrder)
         {
             await _purchaseOrderService.AddPurchaseOrderAsync(purchaseOrder);
             return CreatedAtAction(nameof(GetPurchaseOrderById), new { id = purchaseOrder.orderId }, purchaseOrder);
@@ -45,7 +45,7 @@ namespace WMSSystems.Controllers
 
         [HttpPut]
         [Route("orders/{id}")]
-        public async Task<ActionResult> UpdatePurchaseOrder(string id, [FromBody] PurchaseOrders purchaseOrder)
+        public async Task<ActionResult> UpdatePurchaseOrder(string id, [FromBody] PurchaseOrder purchaseOrder)
         {
             if (id != purchaseOrder.orderId)
                 return BadRequest();
